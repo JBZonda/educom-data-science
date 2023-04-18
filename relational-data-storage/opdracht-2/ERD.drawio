@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="xaji850bb3O5yuO1Ioe8" name="Page-1">
-        <mxGraphModel dx="1593" dy="1056" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="529" dy="1056" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -111,7 +111,7 @@
                 <mxCell id="38" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="29" target="9">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="29" value="TrachId (PK)&lt;br&gt;Name&lt;br&gt;AlbumId(FK)&lt;br&gt;GenreId(FK)&lt;br&gt;MediaTypeId(FK)&lt;br&gt;GenreId(FK)" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="29" value="TrachId (PK)&lt;br&gt;Name&lt;br&gt;AlbumId(FK)&lt;br&gt;GenreId(FK)&lt;br&gt;MediaTypeId(FK)&lt;br&gt;GenreId(FK)&lt;br&gt;Composer&lt;br&gt;Miliseconds&lt;br&gt;Bytes&lt;br&gt;UnitPrice" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
                     <mxGeometry x="657.5" y="270" width="120" height="230" as="geometry"/>
                 </mxCell>
             </root>
