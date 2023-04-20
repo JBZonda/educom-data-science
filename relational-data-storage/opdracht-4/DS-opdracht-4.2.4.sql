@@ -1,4 +1,4 @@
--- V1 not set properties niet ge joined
+-- V1 not set properties niet gejoined
 select sp.name as suplier, pr_ty.name as property, ifnull(yn.content,"NOT SET") as value
 from mhl_yn_properties as yn
 left join mhl_propertytypes as pr_ty on yn.propertytype_ID=pr_ty.id
