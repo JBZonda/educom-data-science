@@ -134,3 +134,149 @@ SELECT @level;
 -- ELSEIF And call the procedure again
 CALL p_get_customer_level(447, @level);
 SELECT @level;
+
+-- CASE
+DELIMITER $$
+
+CREATE PROCEDURE p_get_customer_shipping(
+    IN pCustomerNUmber INT
+)
+
+BEGIN
+    
+    DECLARE customerCountry VARCHAR(100);
+    DECLARE pShipping VARCHAR(50);
+
+    SELECT  country
+      INTO customerCountry 
+      FROM customers
+     WHERE customerNumber = pCustomerNUmber;
+
+    CASE customerCountry
+        WHEN 'USA' THEN SET pShipping = '2-day Shipping';
+        WHEN 'Canada' THEN SET pShipping = '3-day Shipping';
+        ELSE SET pShipping = '5-day Shipping';
+    END CASE;
+    
+    SELECT pShipping;
+    
+END$$
+
+DELIMITER ;
+
+CALL p_get_customer_shipping(112);
+
+DROP PROCEDURE IF EXISTS p_loop_demo;
+
+DELIMITER $$
+CREATE PROCEDURE p_loop_demo()
+BEGIN
+    DECLARE x  INT;
+    DECLARE str  VARCHAR(255);
+        
+    SET x = 1;
+    SET str =  '';
+        
+    loop_label:  LOOP
+        IF  x > 10 THEN 
+            LEAVE  loop_label;
+        END  IF;
+            
+        SET  x = x + 1;
+        IF  (x mod 2) THEN
+            ITERATE  loop_label;
+        ELSE
+            SET  str = CONCAT(str,x,',');
+        END  IF;
+    END LOOP;
+    SELECT str;
+END$$
+
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS p_while_demo;
+
+DELIMITER $$
+CREATE PROCEDURE p_while_demo()
+BEGIN
+    DECLARE x  INT;
+    DECLARE str  VARCHAR(255);
+        
+    SET x = 1;
+    SET str =  '';
+        
+    loop_label:  WHILE X <= 10 DO             
+        IF NOT (x mod 2) THEN
+            SET  str = CONCAT(str,x,',');
+        END  IF;
+        SET  x = x + 1;
+    END WHILE;
+    SELECT str;
+END$$
+
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS p_repeat_demo;
+
+DELIMITER $$
+CREATE PROCEDURE p_repeat_demo()
+BEGIN
+    DECLARE x  INT;
+    DECLARE str  VARCHAR(255);
+        
+    SET x = 1;
+    SET str =  '';
+        
+    loop_label:  REPEAT             
+        IF NOT (x mod 2) THEN
+            SET  str = CONCAT(str,x,',');
+        END  IF;
+        SET  x = x + 1;
+    UNTIL x > 10
+    END REPEAT;
+    
+    SELECT str;
+END$$
+
+DELIMITER ;
+call p_loop_demo();
+call p_while_demo();
+call p_repeat_demo();
+
+DROP PROCEDURE IF EXISTS p_create_emaillist;
+
+DELIMITER $$
+CREATE PROCEDURE p_create_emaillist (
+    INOUT emailList varchar(4000)
+)
+BEGIN
+    DECLARE finished INTEGER DEFAULT 0;
+    DECLARE emailAddress varchar(100) DEFAULT "";
+
+    -- declare cursor for employee email
+    DEClARE curEmail 
+        CURSOR FOR 
+            SELECT email FROM employees;
+
+    -- declare NOT FOUND handler
+    DECLARE CONTINUE HANDLER 
+        FOR NOT FOUND SET finished = 1;
+
+    OPEN curEmail;
+
+    getEmail: LOOP
+        FETCH curEmail INTO emailAddress;
+        IF finished = 1 THEN 
+            LEAVE getEmail;
+        END IF;
+        -- build email list
+        SET emailList = CONCAT(emailAddress,";",emailList);
+    END LOOP getEmail;
+    CLOSE curEmail;
+
+END$$
+DELIMITER ;
+
+SET @emailList = ""; 
+CALL p_create_emaillist(@emailList); 
+SELECT @emailList;
